@@ -4,21 +4,25 @@
     {
         int count = 0;
 
+        MainViewModel _viewModel;
+
         public MainPage()
         {
             InitializeComponent();
-        }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
-        {
-            count++;
+            
+            BindingContext = _viewModel = new MainViewModel();
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+            _viewModel.InitializeProducts();
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
+            int breakpoint18 = 1;
+
+            //Task.Run(async () =>
+            //{
+            //    await _viewModel.InitializeProducts();
+            //});
+
+
+        }       
     }
 }

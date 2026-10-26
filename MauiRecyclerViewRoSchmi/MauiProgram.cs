@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+#if ANDROID
+using MauiRecyclerViewRoSchmi.Platforms.Android;
+#endif
 
 namespace MauiRecyclerViewRoSchmi
 {
@@ -13,6 +16,12 @@ namespace MauiRecyclerViewRoSchmi
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                })
+                .ConfigureMauiHandlers(handlers =>
+                {
+#if ANDROID
+                    handlers.AddHandler<CustomRecyclerView, CustomRecyclerViewHandler>();
+#endif
                 });
 
 #if DEBUG
