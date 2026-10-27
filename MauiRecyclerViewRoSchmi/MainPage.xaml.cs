@@ -10,12 +10,9 @@
         {
             InitializeComponent();
 
-            
             BindingContext = _viewModel = new MainViewModel();
 
             _viewModel.InitializeProducts();
-
-            int breakpoint18 = 1;
 
             //Task.Run(async () =>
             //{

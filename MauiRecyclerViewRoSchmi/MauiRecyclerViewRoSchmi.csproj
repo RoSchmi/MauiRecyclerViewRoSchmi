@@ -72,6 +72,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Platforms\Android\Resources\layout\" />
+	  <Folder Include="Platforms\Android\Resources\drawable\" />
 	  <Folder Include="Resources\Drawable\" />
 	</ItemGroup>
 

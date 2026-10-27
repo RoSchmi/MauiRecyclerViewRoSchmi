@@ -1,9 +1,11 @@
-﻿using AndroidViews = Android.Views;
+﻿using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using Bumptech.Glide;
-using Android.Graphics;
+using Bumptech.Glide.Util;
+using Bumptech.Glide.Load.Engine;
+using AndroidViews = Android.Views;
 
 
 
@@ -22,11 +24,15 @@ public class CustomRecyclerViewAdapter : RecyclerView.Adapter
     
     public void UpdateData(ObservableCollection<ProductResponse> newProducts)
     {
-        // Преобразуем ObservableCollection в List
+        
+        
+        // Convert ObservableCollection to List
         //_products = new List<ProductResponse>(newProducts);
+
         _products.AddRange(newProducts);
 
-        // Уведомляем адаптер, что данные изменились
+        
+        // Notify the adapter that the data has changed
         NotifyDataSetChanged();
     }
 
@@ -46,23 +52,34 @@ public class CustomRecyclerViewAdapter : RecyclerView.Adapter
         if (holder is CustomViewHolder viewHolder)
         {
             var product = _products[position];
+            // Set the name (for example, chat name)
 
-            // Устанавливаем имя (например, название чата)
+            
             viewHolder.TextView.Text = product.Name;
 
-            // Устанавливаем последнее сообщение
+            // Set the last message
             viewHolder.DescriptionTextView.Text = product.Description;
-
-            // Устанавливаем дату последнего сообщения
+ 
+            // Set the date of the last message
             viewHolder.PublishedTextView.Text = product.PublishedDate.ToString("yyyy-MM-dd");
 
-            // Загружаем изображение (аватар)
+
+            // Load the image (avatar)
+            
             Glide.With(viewHolder.ImageView.Context)
-                 .Load(product.ImageUrl)
-                 .Into(viewHolder.ImageView);
+                .Load(product.ImageUrl)
+                .Placeholder(Resource.Drawable.loading_picture)  // Wird gezeigt während es lädt
+                .Error(Resource.Drawable.error_picture)          // Wird gezeigt bei Fehler
+                .Listener(new GlideExceptionListener())          // Fügt den Protokoll-Listener hinzu
+                .Into(viewHolder.ImageView);
+            
+
+
+
             viewHolder.Title2.Text = product.Name;
 
-            // Устанавливаем количество непрочитанных сообщений
+            
+            // Set the number of unread messages
             if (product.UnreadMessagesCount > 0)
             {
                 viewHolder.UnreadMessagesCount.Text = product.UnreadMessagesCount.ToString();
@@ -94,6 +111,7 @@ public class CustomRecyclerViewAdapter : RecyclerView.Adapter
                 if (imageBytes != null && imageBytes.Length > 0)
                 {
                     imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                    int breakpoint107 = 1;
                 }
             }
         }
@@ -106,6 +124,24 @@ public class CustomRecyclerViewAdapter : RecyclerView.Adapter
         imageView.SetImageBitmap(bitmap);
     }
 }
+
+public class GlideExceptionListener : Java.Lang.Object, Bumptech.Glide.Request.IRequestListener
+{
+
+    public bool OnResourceReady(global::Java.Lang.Object p0, global::Java.Lang.Object p1, global::Bumptech.Glide.Request.Target.ITarget? p2, global::Bumptech.Glide.Load.DataSource p3, bool p4)
+    {
+        // Protokolliert den Fehler im Ausgabefenster von Visual Studio
+        //System.Diagnostics.Debug.WriteLine($"[GlideError] ResourceReady fehlgeschlagen: {e?.Message}");
+        return false; }
+    public bool OnLoadFailed(Bumptech.Glide.Load.Engine.GlideException e, Java.Lang.Object model, Bumptech.Glide.Request.Target.ITarget target, bool isFirstResource)
+    {
+        // Protokolliert den Fehler im Ausgabefenster von Visual Studio
+        System.Diagnostics.Debug.WriteLine($"[GlideError] Laden fehlgeschlagen: {e?.Message}");
+        return false;
+    }
+}
+
+
 
 public class CustomViewHolder : RecyclerView.ViewHolder
 {

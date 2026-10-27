@@ -16,7 +16,7 @@ public class CustomRecyclerView : View
     }
 
     private static void OnItemsChanged(BindableObject bindable, object oldValue, object newValue)
-    {
+    {    
         //if (bindable is CustomRecyclerView customRecyclerView)
         //{
         //    if (oldValue is ObservableCollection<ProductResponse> oldCollection)
