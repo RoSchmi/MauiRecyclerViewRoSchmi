@@ -4,8 +4,8 @@ using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using Bumptech.Glide;
 using Android.Graphics;
-using MauiRecyclerViewRoSchmi.Models;
-using System.Collections.ObjectModel;
+
+
 
 namespace MauiRecyclerViewRoSchmi.Platforms.Android;
 
@@ -78,7 +78,7 @@ public class CustomRecyclerViewAdapter : RecyclerView.Adapter
     public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
     {
         // Inflate the item view
-        AndroidViews.View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Drawable.recycler_view_item, parent, false);
+        AndroidViews.View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.recycler_view_item, parent, false);
         return new CustomViewHolder(itemView);
     }
 
@@ -125,3 +125,4 @@ public class CustomViewHolder : RecyclerView.ViewHolder
         UnreadMessagesCount = itemView.FindViewById<TextView>(Resource.Id.unreadMessagesCount);
         Title2 = itemView.FindViewById<TextView>(Resource.Id.title2);
     }
+}

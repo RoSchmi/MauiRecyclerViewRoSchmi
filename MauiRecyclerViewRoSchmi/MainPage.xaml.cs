@@ -21,8 +21,6 @@
             //{
             //    await _viewModel.InitializeProducts();
             //});
-
-
         }       
     }
 }
